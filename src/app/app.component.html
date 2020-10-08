@@ -1,3 +1,10 @@
-<div class="container">
-  <div class="content">Text</div>
+<div id="wrapper">
+  <div id="shopping-list">
+    <div id="id">
+      <h2>Shopping List</h2>
+      <ul>
+        <li *ngFor="let item of shoppingItems$ | async">{{ item.name }}</li>
+      </ul>
+    </div>
+  </div>
 </div>
