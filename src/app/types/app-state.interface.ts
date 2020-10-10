@@ -1,5 +1,5 @@
-import { ShoppingItem } from './shopping-item.interface'
+import { ShoppingItemInterface } from './shopping-item.interface'
 
-export interface AppState {
-  readonly shopping: Array<ShoppingItem>
+export interface AppStateInterface {
+  readonly shopping: Array<ShoppingItemInterface>
 }
