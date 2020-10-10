@@ -1,35 +1,48 @@
 import { Action, createReducer, on } from '@ngrx/store'
 
 import { ShoppingItemInterface } from '../../types/shopping-item.interface'
-import { addItemAction, deleteItemAction } from '../actions/shopping.actions'
+import {
+  addItemAction,
+  deleteItemAction,
+  loadShoppingAction,
+  loadShoppingFailureAction,
+  loadShoppingSuccessAction,
+} from '../actions/shopping.actions'
+import { ShoppingStateInterface } from '../../types/shopping-state.interface'
 
-const initialState: Array<ShoppingItemInterface> = [
-  {
-    id: '624c72c0-c699-4616-b04b-9bed14e554bc',
-    name: 'Test Product Name 1',
-  },
-  {
-    id: '8ba5b620-d494-4e24-b970-b94020eb2839',
-    name: 'Test Product Name 2',
-  },
-]
+const initialState: ShoppingStateInterface = {
+  list: [],
+  loading: null,
+  error: undefined,
+}
 
 const shoppingReducer = createReducer(
   initialState,
   on(
-    addItemAction,
-    (state, action): Array<ShoppingItemInterface> => {
-      return [...state, action.shoppingItem]
-    }
+    loadShoppingAction,
+    (state): ShoppingStateInterface => ({
+      ...state,
+      loading: true,
+    })
   ),
   on(
-    deleteItemAction,
-    (state, action): Array<ShoppingItemInterface> => {
-      return state.filter((item) => item.id !== action.id)
-    }
+    loadShoppingSuccessAction,
+    (state, action): ShoppingStateInterface => ({
+      ...state,
+      list: action.list,
+      loading: false,
+    })
+  ),
+  on(
+    loadShoppingFailureAction,
+    (state, action): ShoppingStateInterface => ({
+      ...state,
+      error: action.error,
+      loading: false,
+    })
   )
 )
 
-export function reducer(state: Array<ShoppingItemInterface>, action: Action) {
+export function reducer(state: ShoppingStateInterface, action: Action) {
   return shoppingReducer(state, action)
 }

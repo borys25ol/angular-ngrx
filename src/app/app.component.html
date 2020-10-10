@@ -1,6 +1,6 @@
 <div id="wrapper">
-  <div id="shopping-list">
-    <div id="id">
+  <div [class.loading]="loading$ | async" id="shopping-list">
+    <div id="list">
       <h2>Shopping List</h2>
       <ul>
         <li

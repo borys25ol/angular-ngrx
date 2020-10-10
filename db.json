@@ -1,0 +1,12 @@
+{
+  "shopping": [
+    {
+      "id": 1,
+      "name": "Pepsi Max"
+    },
+    {
+      "id": 2,
+      "name": "Beer Corona Extra"
+    }
+  ]
+}

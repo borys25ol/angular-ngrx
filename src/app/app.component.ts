@@ -7,9 +7,13 @@ import { Observable } from 'rxjs'
 import { ShoppingItemInterface } from './types/shopping-item.interface'
 import {
   addItemAction,
-  deleteItemAction,
+  deleteItemAction, loadShoppingAction
 } from './store/actions/shopping.actions'
-import { shoppingSelector } from './store/selectors/shopping.selector'
+import {
+  shoppingErrorSelector,
+  shoppingListSelector,
+  shoppingLoadingSelector,
+} from './store/selectors/shopping.selector'
 
 @Component({
   selector: 'app-root',
@@ -18,6 +22,9 @@ import { shoppingSelector } from './store/selectors/shopping.selector'
 })
 export class AppComponent implements OnInit {
   shoppingItems$: Observable<Array<ShoppingItemInterface>>
+  loading$: Observable<boolean>
+  error$: Observable<Error>
+
   newShoppingItem: ShoppingItemInterface = { id: '', name: '' }
 
   constructor(private store: Store<AppStateInterface>) {}
@@ -27,7 +34,11 @@ export class AppComponent implements OnInit {
   }
 
   initializeValues(): void {
-    this.shoppingItems$ = this.store.pipe(select(shoppingSelector))
+    this.shoppingItems$ = this.store.pipe(select(shoppingListSelector))
+    this.loading$ = this.store.pipe(select(shoppingLoadingSelector))
+    this.error$ = this.store.pipe(select(shoppingErrorSelector))
+
+    this.store.dispatch(loadShoppingAction())
   }
 
   addItem(): void {
