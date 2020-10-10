@@ -1,8 +1,12 @@
 <div id="wrapper">
-  <div [class.loading]="loading$ | async" id="shopping-list">
+  <div
+    [class.loading]="loading$ | async"
+    id="shopping-list"
+    *ngIf="!(error$ | async); else errors"
+  >
     <div id="list">
       <h2>Shopping List</h2>
-      <ul>
+      <ul *ngIf="!(error$ | async); else noItems">
         <li
           *ngFor="let item of shoppingItems$ | async"
           (dblclick)="deleteItem(item.id)"
@@ -10,6 +14,14 @@
           {{ item.name }}
         </li>
       </ul>
+
+      <ng-template #noItems>
+        <ul>
+          <li style="max-width: 250px; margin: 0 auto">
+            No items found. Are you sure there's <em>nothing</em> you want?
+          </li>
+        </ul>
+      </ng-template>
     </div>
   </div>
 
@@ -25,3 +37,7 @@
     <button type="submit">+</button>
   </form>
 </div>
+
+<ng-template #errors>
+  <h2>{{ (error$ | async)?.message }}</h2>
+</ng-template>

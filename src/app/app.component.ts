@@ -7,7 +7,8 @@ import { Observable } from 'rxjs'
 import { ShoppingItemInterface } from './types/shopping-item.interface'
 import {
   addItemAction,
-  deleteItemAction, loadShoppingAction
+  deleteItemAction,
+  loadShoppingAction,
 } from './store/actions/shopping.actions'
 import {
   shoppingErrorSelector,
