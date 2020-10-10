@@ -3,8 +3,25 @@
     <div id="id">
       <h2>Shopping List</h2>
       <ul>
-        <li *ngFor="let item of shoppingItems$ | async">{{ item.name }}</li>
+        <li
+          *ngFor="let item of shoppingItems$ | async"
+          (dblclick)="deleteItem(item.id)"
+        >
+          {{ item.name }}
+        </li>
       </ul>
     </div>
   </div>
+
+  <form (ngSubmit)="addItem()">
+    <label for="shopping-input"></label>
+    <input
+      id="shopping-input"
+      type="text"
+      [(ngModel)]="newShoppingItem.name"
+      placeholder="Item"
+      name="itemName"
+    />
+    <button type="submit">+</button>
+  </form>
 </div>
