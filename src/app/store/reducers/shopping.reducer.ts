@@ -1,11 +1,7 @@
-import { ShoppingItemInterface } from '../../types/shopping-item.interface'
 import { Action, createReducer, on } from '@ngrx/store'
 
-import {
-  addItemAction,
-  ShoppingActionTypes,
-} from '../actions/shopping.actions'
-import { AppStateInterface } from '../../types/app-state.interface'
+import { ShoppingItemInterface } from '../../types/shopping-item.interface'
+import { addItemAction, deleteItemAction } from '../actions/shopping.actions'
 
 const initialState: Array<ShoppingItemInterface> = [
   {
@@ -24,6 +20,12 @@ const shoppingReducer = createReducer(
     addItemAction,
     (state, action): Array<ShoppingItemInterface> => {
       return [...state, action.shoppingItem]
+    }
+  ),
+  on(
+    deleteItemAction,
+    (state, action): Array<ShoppingItemInterface> => {
+      return state.filter((item) => item.id !== action.id)
     }
   )
 )
