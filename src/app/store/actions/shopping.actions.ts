@@ -31,11 +31,11 @@ export const addItemAction = createAction(
   props<{ shoppingItem: ShoppingItemInterface }>()
 )
 export const addItemSuccessAction = createAction(
-  ShoppingActionTypes.ADD_ITEM,
+  ShoppingActionTypes.ADD_ITEM_SUCCESS,
   props<{ shoppingItem: ShoppingItemInterface }>()
 )
 export const addItemFailureAction = createAction(
-  ShoppingActionTypes.ADD_ITEM,
+  ShoppingActionTypes.ADD_ITEM_FAILURE,
   props<{ error: Error }>()
 )
 
@@ -48,5 +48,6 @@ export const deleteItemSuccessAction = createAction(
   props<{ id: string }>()
 )
 export const deleteItemFailureAction = createAction(
-  ShoppingActionTypes.DELETE_ITEM_FAILURE
+  ShoppingActionTypes.DELETE_ITEM_FAILURE,
+  props<{ error: Error }>()
 )

@@ -1,9 +1,12 @@
 import { Action, createReducer, on } from '@ngrx/store'
 
-import { ShoppingItemInterface } from '../../types/shopping-item.interface'
 import {
   addItemAction,
+  addItemFailureAction,
+  addItemSuccessAction,
   deleteItemAction,
+  deleteItemFailureAction,
+  deleteItemSuccessAction,
   loadShoppingAction,
   loadShoppingFailureAction,
   loadShoppingSuccessAction,
@@ -13,7 +16,7 @@ import { ShoppingStateInterface } from '../../types/shopping-state.interface'
 const initialState: ShoppingStateInterface = {
   list: [],
   loading: null,
-  error: undefined,
+  error: null,
 }
 
 const shoppingReducer = createReducer(
@@ -39,6 +42,52 @@ const shoppingReducer = createReducer(
       ...state,
       error: action.error,
       loading: false,
+    })
+  ),
+  on(
+    addItemAction,
+    (state): ShoppingStateInterface => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    addItemSuccessAction,
+    (state, action): ShoppingStateInterface => ({
+      ...state,
+      list: [...state.list, action.shoppingItem],
+      loading: false,
+    })
+  ),
+  on(
+    addItemFailureAction,
+    (state, action): ShoppingStateInterface => ({
+      ...state,
+      loading: false,
+      error: action.error,
+    })
+  ),
+  on(
+    deleteItemAction,
+    (state): ShoppingStateInterface => ({
+      ...state,
+      loading: true,
+    })
+  ),
+  on(
+    deleteItemSuccessAction,
+    (state, action): ShoppingStateInterface => ({
+      ...state,
+      list: state.list.filter((item) => item.id !== action.id),
+      loading: false,
+    })
+  ),
+  on(
+    deleteItemFailureAction,
+    (state, action): ShoppingStateInterface => ({
+      ...state,
+      loading: false,
+      error: action.error,
     })
   )
 )

@@ -4,12 +4,17 @@ import { of } from 'rxjs'
 import { catchError, map, mergeMap } from 'rxjs/operators'
 
 import {
+  addItemAction,
+  addItemFailureAction,
+  addItemSuccessAction,
+  deleteItemAction,
+  deleteItemFailureAction,
+  deleteItemSuccessAction,
   loadShoppingAction,
   loadShoppingFailureAction,
   loadShoppingSuccessAction,
 } from '../actions/shopping.actions'
 import { ShoppingService } from '../../shopping.service'
-import { ShoppingStateInterface } from '../../types/shopping-state.interface'
 import { ShoppingItemInterface } from '../../types/shopping-item.interface'
 
 @Injectable()
@@ -23,6 +28,34 @@ export class ShoppingEffects {
             return loadShoppingSuccessAction({ list: data })
           }),
           catchError((error) => of(loadShoppingFailureAction({ error })))
+        )
+      )
+    )
+  )
+
+  addItem$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(addItemAction),
+      mergeMap(({ shoppingItem }) =>
+        this.shoppingService.addShoppingItem(shoppingItem).pipe(
+          map((data: ShoppingItemInterface) => {
+            return addItemSuccessAction({ shoppingItem: data })
+          }),
+          catchError((error) => of(addItemFailureAction({ error })))
+        )
+      )
+    )
+  )
+
+  deleteItem$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(deleteItemAction),
+      mergeMap(({ id }) =>
+        this.shoppingService.deleteShoppingItem(id).pipe(
+          map(() => {
+            return deleteItemSuccessAction({ id })
+          }),
+          catchError((error) => of(deleteItemFailureAction({ error })))
         )
       )
     )
